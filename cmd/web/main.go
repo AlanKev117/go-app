@@ -15,7 +15,6 @@ const portNumber = ":8080"
 func main() {
 	// Globally create and set app config object
 	var appConfig config.AppConfig
-	render.SetAppConfig(&appConfig)
 
 	tc, err := render.GetTemplateCache()
 
@@ -30,6 +29,7 @@ func main() {
 	// Create handler repo
 	appRepository := handlers.NewRepository(&appConfig)
 	handlers.SetAppRepository(appRepository)
+	render.SetAppConfig(&appConfig)
 
 	// Implement handlers
 	http.HandleFunc("/", handlers.AppRepository.Home)

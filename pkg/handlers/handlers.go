@@ -32,7 +32,7 @@ func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
 // About is the handler for the about page
 func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
 	stringMap := make(map[string]string)
-	stringMap["test"] = "Helloooooooooo"
+	stringMap["test"] = "hello from the template data"
 	render.RenderTemplate(w, "about.page.html", &models.TemplateData{
 		StringMap: stringMap,
 	})

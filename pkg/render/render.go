@@ -23,6 +23,11 @@ func SetAppConfig(appConfig *config.AppConfig) {
 	app = appConfig
 }
 
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+
+	return td
+}
+
 // Renders a template that matches tmpl name
 func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 
@@ -45,6 +50,7 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData)
 
 	buff := new(bytes.Buffer)
 
+	td = AddDefaultData(td)
 	err := template.Execute(buff, td)
 	if err != nil {
 		fmt.Println(err)
