@@ -1,2 +1,2 @@
 # go-app
-A web app written in Go
+A bookings web app written in Go
