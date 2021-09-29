@@ -8,31 +8,34 @@ import (
 	"github.com/AlanKev117/go-app/pkg/render"
 )
 
-var AppRepository *Repository
+var Repository *HandlerRepository
 
-type Repository struct {
-	App *config.AppConfig
+type HandlerRepository struct {
+	AppConfig *config.AppConfig
 }
 
-func NewRepository(appConfig *config.AppConfig) *Repository {
-	return &Repository{
-		App: appConfig,
+func NewHandlerRepository(appConfig *config.AppConfig) *HandlerRepository {
+	return &HandlerRepository{
+		AppConfig: appConfig,
 	}
 }
 
-func SetAppRepository(repository *Repository) {
-	AppRepository = repository
+func SetHandlerRepository(repository *HandlerRepository) {
+	Repository = repository
 }
 
 // Home is the handler for the home page
-func (m *Repository) Home(w http.ResponseWriter, r *http.Request) {
+func (hr *HandlerRepository) Home(w http.ResponseWriter, r *http.Request) {
+	remoteAddress := r.RemoteAddr
+	hr.AppConfig.Session.Put(r.Context(), "remote_addr", remoteAddress)
 	render.RenderTemplate(w, "home.page.html", &models.TemplateData{})
 }
 
 // About is the handler for the about page
-func (m *Repository) About(w http.ResponseWriter, r *http.Request) {
+func (hr *HandlerRepository) About(w http.ResponseWriter, r *http.Request) {
 	stringMap := make(map[string]string)
-	stringMap["test"] = "hello from the template data"
+	remoteAddress := hr.AppConfig.Session.GetString(r.Context(), "remote_addr")
+	stringMap["remote_address"] = remoteAddress
 	render.RenderTemplate(w, "about.page.html", &models.TemplateData{
 		StringMap: stringMap,
 	})
